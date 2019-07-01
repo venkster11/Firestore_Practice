@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "56769638053",
+    "firebase_url": "https://firestoretest-68c14.firebaseio.com",
+    "project_id": "firestoretest-68c14",
+    "storage_bucket": "firestoretest-68c14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56769638053:android:3bcbd487b35eae82",
+        "android_client_info": {
+          "package_name": "com.venkat.firestore_test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "56769638053-ds8v95i71i6shaf1cfjai4slun391brh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.venkat.firestore_test",
+            "certificate_hash": "a2431be596fd2012a36cc225ed95dd98768d9993"
+          }
+        },
+        {
+          "client_id": "56769638053-6g9pka42qo1ucdvcna5p87edfctbekql.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdpftzvNEOAcFo4bZrslK8_8h4OeQze-4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "56769638053-6g9pka42qo1ucdvcna5p87edfctbekql.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
