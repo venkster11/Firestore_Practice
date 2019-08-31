@@ -3,8 +3,11 @@ package com.venkat.firestore_test;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,15 +16,20 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-
+import com.venkat.firestore_test.Fragments.HistoryFragment;
+import com.venkat.firestore_test.Fragments.HomeFragment;
+import com.venkat.firestore_test.Fragments.ItemFragment;
+// testing on new dev branch
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
+  /*  private static final String TAG = "MainActivity";
     private static final String KEY_TITLE = "Title";   //key to the data in firestore
     private static final String KEY_DESCRIPTION = "description";
 
@@ -30,17 +38,26 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewData;
     private Button btn_mult_doc;
     private Button btn_signin;
+    private String id= "123abc45";*/
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+   /* private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DocumentReference noteRef=db.collection("Notebook1").document("My First Note");
-    //or u can also use private DocumentReference noteRef = db.document("Notebook/My First Note");
+    //or u can also use private DocumentReference noteRef = db.document("Notebook/My First Note");*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editTextTitle = findViewById(R.id.edit_text_title);
+        BottomNavigationView bottomNav=findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new HomeFragment()).commit();
+        }
+
+      /*  editTextTitle = findViewById(R.id.edit_text_title);
         editTextDescription = findViewById(R.id.edit_text_description);
         textViewData = findViewById(R.id.text_view_data);
         btn_mult_doc=findViewById(R.id.btnmult);
@@ -61,16 +78,42 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent1=new Intent(MainActivity.this,UIAuthfire.class);
                 startActivity(intent1);
             }
-        });
+        });*/
 
 
     }
 
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener=
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    Fragment selectedFragment = null;
+
+                    switch (menuItem.getItemId()) {
+                        case R.id.nav_home:
+                            selectedFragment = new HomeFragment();
+                            break;
+                        case R.id.nav_favorites:
+                            selectedFragment = new ItemFragment();
+                            break;
+                        case R.id.nav_search:
+                            selectedFragment = new HistoryFragment();
+                            break;
+                    }
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            selectedFragment).commit();
+
+                    return true;
+                }
+            };
+
     //onstart will load data from firestore realtime without even clicking the load data button
-    @Override
+  /*  @Override
     protected void onStart() {
         super.onStart();
-        noteRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+        //DocumentReference noteRef=db.collection("Notebook1").document("My First Note");
+        DocumentReference noteRef1=db.collection(id).document("2nd note");
+        noteRef1.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
                 if (e != null) {
@@ -84,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     String description = documentSnapshot.getString(KEY_DESCRIPTION);
                     textViewData.setText("Title: " + title + "\n" + "Description: " + description);*/ //non custom method
 
-                    Note note = documentSnapshot.toObject(Note.class);
+              /*      Note note = documentSnapshot.toObject(Note.class);
                     String title = note.getTitle();
                     String description = note.getDescription();
                     textViewData.setText("Title: " + title + "\n" + "Description: " + description); //custom method
@@ -93,19 +136,20 @@ public class MainActivity extends AppCompatActivity {
                     textViewData.setText("");}
             }
         });
-    }
+    }*/
 
-    public void saveNote(View v){
+   /* public void saveNote(View v){
         String title = editTextTitle.getText().toString();
         String description = editTextDescription.getText().toString();
+
 
      /*   Map<String, Object> note = new HashMap<>();
         note.put(KEY_TITLE, title);  // key value mapping
         note.put(KEY_DESCRIPTION, description);*/    //non custom method
 
-        Note note=new Note(title,description);  //custom java method
+    /*    Note note=new Note(title,description);  //custom java method
         //here u can also use noteRef.set(note);
-        db.collection("Notebook1").document("My First Note").set(note) //adding document my first note book to collection notebook1.
+        db.collection(id).document().set(note) //adding document my first note book to collection notebook1.
                 //here set is used to add data to firestore
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -120,9 +164,9 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, e.toString());
                     }
                 });
-    }
+    }*/
 
-    public void updateDescription(View v) {
+   /* public void updateDescription(View v) {
         String description = editTextDescription.getText().toString();
 
         //Map<String, Object> note = new HashMap<>();
@@ -158,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                           /*  String title = documentSnapshot.getString(KEY_TITLE);
                             String description = documentSnapshot.getString(KEY_DESCRIPTION);*/ // non custom method
 
-                            Note note = documentSnapshot.toObject(Note.class);
+                         /*   Note note = documentSnapshot.toObject(Note.class);
                             String title = note.getTitle();
                             String description = note.getDescription();
                             textViewData.setText("Title: " + title + "\n" + "Description: " + description);
@@ -175,5 +219,5 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, e.toString());
                     }
                 });
-    }
+    }*/
 }
